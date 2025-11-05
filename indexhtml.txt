@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Racha Fuerte - Comparador Wingfoil, Kitesurf y Windsurf</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+    header { text-align: center; margin-bottom: 20px; }
+    h1 { margin: 0; color: #0077b6; }
+    p.description { font-size: 1.1em; color: #023e8a; }
+    #filters { margin: 20px 0; }
+    .card { background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); margin:10px; padding: 10px; max-width: 300px; display: inline-block; vertical-align: top; }
+    .card img { max-width: 100%; border-radius: 5px; }
+    .card-title { font-weight: bold; margin: 5px 0; font-size: 1.1em; }
+    .card-price { color: #ef233c; font-weight: bold; margin: 5px 0; }
+    .card-platform { font-style: italic; color: #555; margin: 5px 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Racha Fuerte</h1>
+  <p class="description">Tu espacio para ver y comparar precios de kitesurf, wingfoil y windsurf, todo en un solo lugar.</p>
+</header>
+
+<div id="filters">
+  <label for="platformFilter">Filtrar por plataforma:</label>
+  <select id="platformFilter">
+    <option value="all">Todas</option>
+    <option value="Mercado Libre">Mercado Libre</option>
+    <option value="Hardwind">Hardwind</option>
+    <option value="GPX Store">GPX Store</option>
+  </select>
+</div>
+
+<div id="productList"></div>
+
+<script>
+  // Datos simulados como si vinieran de un scrapeo
+  const products = [
+    {
+      title: "Kite Cabrinha Switchblade 12m 2023",
+      description: "Kite Cabrinha Switchblade modelo 2023 en excelente estado.",
+      price: 850000,
+      currency: "ARS",
+      platform: "Mercado Libre",
+      image: "https://www.cabrinha.com/sites/default/files/styles/product_detail/public/2024-12/2024_Cabrinha_Switchblade.jpg"
+    },
+    {
+      title: "Wing Duotone Slick 5m 2024 NUEVA",
+      description: "Wing nueva sin uso. Modelo Slick ideal para principiantes e intermedios.",
+      price: 1200000,
+      currency: "ARS",
+      platform: "Hardwind",
+      image: "https://f-one.world/assets/images/kites/2024/WTF.jpg"
+    },
+    {
+      title: "Tabla Windsurf JP Australia Freestyle Wave 95L",
+      description: "Tabla de windsurf JP Australia modelo Freestyle Wave, ideal para freestyle y olas.",
+      price: 450000,
+      currency: "ARS",
+      platform: "GPX Store",
+      image: "https://jpaustralia.com/wp-content/themes/jp-theme/img/productimage3.jpg"
+    }
+  ];
+
+  const productList = document.getElementById('productList');
+  const platformFilter = document.getElementById('platformFilter');
+
+  function renderProducts(productsToRender) {
+    productList.innerHTML = '';
+    productsToRender.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" />
+        <div class="card-title">${product.title}</div>
+        <div class="card-price">${product.price.toLocaleString()} ${product.currency}</div>
+        <div class="card-platform">${product.platform}</div>
+        <div class="card-description">${product.description}</div>
+      `;
+      productList.appendChild(card);
+    });
+  }
+
+  platformFilter.addEventListener('change', () => {
+    const selected = platformFilter.value;
+    if (selected === 'all') {
+      renderProducts(products);
+    } else {
+      const filtered = products.filter(p => p.platform === selected);
+      renderProducts(filtered);
+    }
+  });
+
+  // Render inicial
+  renderProducts(products);
+</script>
+
+</body>
+</html>
